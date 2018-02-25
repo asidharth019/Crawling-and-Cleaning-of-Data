@@ -5,7 +5,7 @@
 import re
 
 def detect_english(sentence):
-    sentence = re.sub(r'[A-Za-z0-9]*|.''','',sentence)
+    sentence = re.sub(r'[A-Za-z0-9]*|.|\'|(|)|\"|\`|\,|\:|\,|\/|\?|\<|\>|\&|\-|[*]*|\n','',sentence)
     return sentence
 
 
@@ -29,13 +29,16 @@ cleaned_file = open('hindi_cleaned.txt', 'w')
 #             for sent in sub_sentences:
 #                 cleaned_file.write(sent + '\n')
 
-with open('hindi.txt', 'r') as hindi_file:
+with open('hindiraftar.txt', 'r') as hindi_file:
     for sentence in hindi_file:
         sub_sentences = sentence_per_line(sentence)
         small_sent = remove_small_sentence(sentence)
         if not small_sent:  # If not english sentence and neither small sentence
             for sent in sub_sentences:
-                english_sentence_remove = detect_english(sent)
-                cleaned_file.write(english_sentence_remove)
+                    english_sentence_remove = detect_english(sent)
+                    if english_sentence_remove == '\n':
+                        cleaned_file.write('\b')
+                    else:
+                        cleaned_file.write(english_sentence_remove)
 
 cleaned_file.close()

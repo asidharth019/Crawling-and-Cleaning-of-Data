@@ -27,10 +27,11 @@ with open(finalLink, 'r') as web_links_file:
             soup = bs.BeautifulSoup(source, 'html.parser')
 
             for paragraph in soup.find_all('p'):
-                for sentence in str(paragraph.string).split('।'):
+                for sentence in str(paragraph.string).split('|'or'\n'):
                     sentence_str = str(sentence).rstrip()
+                    # sentence_str = u' '.join(sentence).encode('utf-8').rstrip()
                     if sentence_str != 'None' and len(sentence_str) >= 1 and str(sentence)[-1] != '.':
-                        data_file.write(sentence_str + '\n')
+                        data_file.write(str(sentence_str) + '\n')
         except Exception as e:
             print(e)
 
